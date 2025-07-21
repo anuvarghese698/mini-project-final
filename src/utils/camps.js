@@ -96,8 +96,7 @@ export class CampManager {
       // Create camp selection
       const selectionData = {
         user_id: currentUser.id,
-        camp_id: campId,
-        status: 'active'
+        camp_id: campId
       }
 
       const { data: selection, error: selectionError } = await dbHelpers.createCampSelection(selectionData)
@@ -162,7 +161,7 @@ export class CampManager {
 
       const newCampData = {
         ...campData,
-        added_by: currentUser.id,
+        added_by_user_id: currentUser.id,
         type: 'volunteer-added',
         original_beds: campData.beds
       }
@@ -204,7 +203,7 @@ export class CampManager {
       }
 
       const assignmentData = {
-        volunteer_id: currentUser.id,
+        user_id: currentUser.id,
         camp_id: campId
       }
 

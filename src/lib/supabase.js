@@ -15,7 +15,7 @@ export const dbHelpers = {
   // Users
   async createUser(userData) {
     const { data, error } = await supabase
-      .from('users')
+      .from('profiles')
       .insert([userData])
       .select()
     return { data: data?.[0], error }
@@ -23,7 +23,7 @@ export const dbHelpers = {
 
   async getUserByEmail(email) {
     const { data, error } = await supabase
-      .from('users')
+      .from('profiles')
       .select('*')
       .eq('email', email)
       .single()
@@ -32,7 +32,7 @@ export const dbHelpers = {
 
   async updateUser(id, updates) {
     const { data, error } = await supabase
-      .from('users')
+      .from('profiles')
       .update(updates)
       .eq('id', id)
       .select()
@@ -97,7 +97,6 @@ export const dbHelpers = {
         )
       `)
       .eq('user_id', userId)
-      .eq('status', 'active')
       .single()
     return { data, error }
   },
@@ -105,9 +104,8 @@ export const dbHelpers = {
   async cancelCampSelection(userId) {
     const { data, error } = await supabase
       .from('camp_selections')
-      .update({ status: 'cancelled', cancelled_at: new Date().toISOString() })
+      .delete()
       .eq('user_id', userId)
-      .eq('status', 'active')
     return { data, error }
   },
 
@@ -130,8 +128,8 @@ export const dbHelpers = {
           name
         )
       `)
-      .eq('volunteer_id', volunteerId)
-      .order('created_at', { ascending: false })
+      .eq('user_id', volunteerId)
+      .order('assigned_at', { ascending: false })
     return { data: data || [], error }
   }
 }
