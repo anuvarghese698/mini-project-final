@@ -1120,13 +1120,7 @@
         // Cancel any camp selections before logout
         const currentSelection = getUserSelection();
         if (currentSelection) {
-          const camps = getCamps();
-          const camp = camps.find(c => c.id === currentSelection.campId);
-          if (camp) {
-            camp.beds += 1;
-            saveCamps(camps);
-          }
-          clearUserSelection();
+          campManager.cancelSelection();
         }
         
         clearCurrentUser();
